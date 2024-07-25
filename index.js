@@ -5,18 +5,21 @@ const {dbConnection} = require('./config/database')
 require('dotenv').config();
 
 
+// to parse req body
+app.use(express.json())
 
-app.get('/', (req,res) => {
-    res.status(200).json(
-        {
-            message : 'server started'
-        }
-    )
-})
+//import routes
+const postRoutes = require('./routes/posts');
+
+app.use('/v1', postRoutes);
 
 
 dbConnection();
 
 app.listen(process.env.PORT, () => {
     console.log("server started");
+})
+
+app.get('/', (req, res) => {
+    res.send(`<h1>this is home page</h1>`)
 })
